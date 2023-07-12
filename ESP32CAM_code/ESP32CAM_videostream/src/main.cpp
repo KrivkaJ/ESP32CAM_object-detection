@@ -3,8 +3,9 @@
 #include <WiFi.h>
 #include <esp32cam.h>
  
-const char* WIFI_SSID = "********";
-const char* WIFI_PASS = "********";
+#define LED_BUILTIN 4
+const char* WIFI_SSID = "nasdomov";
+const char* WIFI_PASS = "jeleninoha565";
  
 WebServer server(80);
  
@@ -55,6 +56,7 @@ void handleJpgMid()
  
  
 void  setup(){
+  pinMode(LED_BUILTIN, OUTPUT);
   Serial.begin(115200);
   Serial.println();
   {
@@ -89,5 +91,18 @@ void  setup(){
  
 void loop()
 {
+  
+
+        int angle = Serial.parseInt();
+    
+
+    if (angle == 1){
+        digitalWrite(LED_BUILTIN, HIGH);
+        delay(2000);
+    }
+
+    else{
+            digitalWrite(LED_BUILTIN, LOW);
+    }
   server.handleClient();
 }
