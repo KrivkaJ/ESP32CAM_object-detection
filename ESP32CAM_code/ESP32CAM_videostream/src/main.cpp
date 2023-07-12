@@ -9,7 +9,12 @@ const char* WIFI_PASS = "jeleninoha565";
  
 WebServer server(80);
  
- 
+// Set your Static IP address
+IPAddress local_IP(192, 168, 137, 92);
+// Set your Gateway IP address
+IPAddress gateway(192, 168, 1, 1);
+IPAddress subnet(255, 255, 0, 0);
+
 static auto loRes = esp32cam::Resolution::find(320, 240);
 static auto midRes = esp32cam::Resolution::find(350, 530);
 static auto hiRes = esp32cam::Resolution::find(800, 600);
@@ -59,6 +64,11 @@ void  setup(){
   pinMode(LED_BUILTIN, OUTPUT);
   Serial.begin(115200);
   Serial.println();
+
+if (!WiFi.config(local_IP, gateway, subnet)) {
+    Serial.println("STA Failed to configure");
+  }
+
   {
     using namespace esp32cam;
     Config cfg;
