@@ -2,11 +2,17 @@
 from ultralytics import YOLO
 import numpy as np
 import cv2 
+import cvzone
 
+classesfile='coco.names'
+classNames=[]
+with open(classesfile,'rt') as f:
+    classNames=f.read().rstrip('\n').split('\n')
 model = YOLO('yolov8n.pt')#zvoleni jaky model se pouzije 
 cap = cv2.VideoCapture(0)#nacte video z kamery do promene
 cap.set(3,720)
 cap.set(4,480)
+
 while True:
      sucess, img = cap.read()
      results = model(img, stream = True)
@@ -21,5 +27,10 @@ while True:
             conf = float(conf*100)
             rounded_conf = int(conf)#zaokrouhli jistotu modelu na dve desetina mista 
             print('confidence:',rounded_conf)
+            #class names 
+            cls = int(box.cls[0])
+            cvzone.putTextRect(img, f'{classNames[cls]}{rounded_conf}',(max(0,x1), max(35,y1)))
      cv2.imshow('footage',img)
-     cv2.waitKey(1000)#delay takze to vyhodnocuje jen jeden frame za sekundu pro odlehceni 
+     key=cv2.waitKey(1000)#delay takze to vyhodnocuje jen jeden frame za sekundu pro odlehceni 
+     if key==ord('q'):#pokud se zmackne klavesa q while true se brejkne 
+        break
