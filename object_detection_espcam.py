@@ -10,7 +10,6 @@ url = 'http://192.168.137.92/cam-hi.jpg'#url adresa esp cam
 model = YOLO('yolov8n.pt')#zvoleni jaky model se pouzije 
 
 cap = cv2.VideoCapture(url)#nacte video z kamery do promene 
-model = YOLO('yolov8n.pt')
 while True:
     # Read a frame from the video stream
     img_resp=urllib.request.urlopen(url)
