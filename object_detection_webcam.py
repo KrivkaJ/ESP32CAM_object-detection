@@ -27,14 +27,16 @@ while True:
                 x1,y1,x2,y2 = box.xyxy [0] #x1 je pozice leveho horniho rohu objektu v ose x, x2 je velikost objektu v ose x v px 
                 x1,y1,x2,y2 = int(x1),int(y1),int(x2),int(y2)#prevedeni hodnot na int pro lepsi praci s nima 
                 print('X=',x1,'Y=',y1,'W=',x2,'H=',y2)#vypisuje velikost objektu a jeho polohu v px 
-                center_x,center_y = x1+(x2/2),y1+(y2/2)#vypocet stredu objektu pro lepsi lokalizaci medveda 
-                print('center:',center_x,center_y)#vypise udaje 
                 cv2.rectangle(img,(x1,y1),(x2,y2),(255,0,255),3)#nakresli box okolo detekovane veci 
                 conf = box.conf[0]#jistota modelu 
                 conf = float(conf*100)
                 rounded_conf = int(conf)#zaokrouhli jistotu modelu na dve desetina mista 
                 print('confidence:',rounded_conf)
                 #class names 
+                center_x,center_y = x1+(x2/2),y1+(y2/2)#vypocet stredu objektu pro lepsi lokalizaci medveda 
+                print('center:',center_x,center_y)#vypise udaje v
+                center_x,center_y = int(center_x-x1/2), int(center_y-y1/2)#prevede hodnoty na int aby se dali pouzit ve funkci ukazujici stred 
+                cv2.circle(img, (center_x,center_y),10, (255,0,255), thickness=-1)
                 cls = int(box.cls[0])#ulozi classu daneho objektu do promenne 
                 cvzone.putTextRect(img, f'{classNames[cls]}{rounded_conf}',(max(0,x1), max(35,y1)))#vykresli nazev classy objektu spolecne s confidence do videa 
                 print(classNames[cls])#vypise klassu objektu
