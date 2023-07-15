@@ -3,7 +3,10 @@ from ultralytics import YOLO
 import numpy as np
 import cv2 
 import cvzone
-
+p_width = 140 #sirka hriste 
+p_height = 280 #delka hriste 
+margin_x = 25 # odsazeni od okraje okna v x 
+margin_y = 25 # odsazeni od okraje okna v y 
 #nastaveni modelu a nazvu veci 
 classesfile='coco.names'
 classNames=[]
@@ -16,6 +19,11 @@ cap.set(3,720)#sirka okna s videem
 cap.set(4,480)#vyska okna s videem
 #cteni a zobrazovani videa, jeden loop se rovna jeden frame 
 object_id = classNames.index('pottedplant')# zjisti class id objektu co hledam
+playfield = np.zeros(((p_height*2)+50,(p_width*2)+50,3), dtype='uint8')
+cv2.rectangle(playfield, (margin_x,margin_y),((p_width*2)+margin_x,(p_height*2)+margin_y),(255,255,255),thickness=2)
+cv2.line(playfield,(25,305),(205,305),(255,255,255),thickness=2 )
+cv2.line(playfield, (205,305),(205,305+140), (255,255,255),thickness=2)
+cv2.line(playfield, (105,(p_height*2)+25),(105,305+140), (255,255,255),thickness=2)
 while True:
      sucess, img = cap.read()
      results = model(img, stream = True)
@@ -40,6 +48,10 @@ while True:
                 cls = int(box.cls[0])#ulozi classu daneho objektu do promenne 
                 cvzone.putTextRect(img, f'{classNames[cls]}{rounded_conf}',(max(0,x1), max(35,y1)))#vykresli nazev classy objektu spolecne s confidence do videa 
                 print(classNames[cls])#vypise klassu objektu
+                pos_x, pos_y = int(center_x/7),int((center_y/40)**2.15-360)
+                print(pos_x, pos_y)
+                cv2.circle(playfield, (pos_x,pos_y),10, (255,0,255), thickness=-1)
+     cv2.imshow('hriste', playfield)
      cv2.imshow('footage',img)
      key=cv2.waitKey(1000)#delay takze to vyhodnocuje jen jeden frame za sekundu pro odlehceni 
      if key==ord('q'):#pokud se zmackne klavesa q while true se brejkne 
