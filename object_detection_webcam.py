@@ -3,6 +3,17 @@ from ultralytics import YOLO
 import numpy as np
 import cv2 
 import cvzone
+#souradnice bodu hriste pro kalibraci robota
+#podle nich se bude robot stavet aby nasel souradnice robota spravne 
+corner_ax = 100
+corner_bx = 200
+corner_cx = 800
+corner_dx = 300
+corner_ay = 100
+corner_by = 200
+corner_cy = 800
+corner_dy = 300
+###########################
 p_width = 140 #sirka hriste 
 p_height = 280 #delka hriste 
 margin_x = 25 # odsazeni od okraje okna v x 
@@ -27,6 +38,10 @@ cv2.line(playfield, (105,(p_height*2)+25),(105,305+140), (255,255,255),thickness
 while True:
      sucess, img = cap.read()
      results = model(img, stream = True)
+     cv2.line(img, (corner_ax,corner_ay),(corner_bx, corner_by), (0,0,255),thickness=2)#hrana ab
+     cv2.line(img, (corner_bx, corner_by),(corner_cx,corner_cy), (0,0,255),thickness=2)#hrana bc
+     cv2.line(img, (corner_cx,corner_cy),(corner_dx,corner_dy), (0,0,255),thickness=2)#hrana cd
+     cv2.line(img, (corner_dx,corner_dy),(corner_ax,corner_ay), (0,0,255),thickness=2)#hrana da
      for r in results:
         boxes = r.boxes
         for box in boxes:
