@@ -5,14 +5,14 @@ import cv2
 import cvzone
 #souradnice bodu hriste pro kalibraci robota
 #podle nich se bude robot stavet aby nasel souradnice robota spravne 
-corner_ax = 100
-corner_bx = 200
-corner_cx = 800
-corner_dx = 300
-corner_ay = 100
-corner_by = 200
-corner_cy = 800
-corner_dy = 300
+corner_ax = 68
+corner_bx = 1518
+corner_cx = 992
+corner_dx = 186
+corner_ay = 710
+corner_by = 525
+corner_cy = 366
+corner_dy = 414
 ###########################
 p_width = 140 #sirka hriste 
 p_height = 280 #delka hriste 
@@ -38,6 +38,10 @@ cv2.line(playfield, (105,(p_height*2)+25),(105,305+140), (255,255,255),thickness
 while True:
      sucess, img = cap.read()
      results = model(img, stream = True)
+     cv2.circle(img, (corner_dx,corner_dy),(5), (0,0,255),thickness=-1)
+     cv2.circle(img, (corner_ax,corner_ay),(5), (0,255,0),thickness=-1)
+     cv2.circle(img, (corner_bx,corner_by),(5), (255,0,0),thickness=-1)
+     cv2.circle(img, (corner_cx,corner_cy),(5), (255,255,255),thickness=-1)
      cv2.line(img, (corner_ax,corner_ay),(corner_bx, corner_by), (0,0,255),thickness=2)#hrana ab
      cv2.line(img, (corner_bx, corner_by),(corner_cx,corner_cy), (0,0,255),thickness=2)#hrana bc
      cv2.line(img, (corner_cx,corner_cy),(corner_dx,corner_dy), (0,0,255),thickness=2)#hrana cd
@@ -57,14 +61,14 @@ while True:
                 print('confidence:',rounded_conf)
                 #class names 
                 center_x,center_y = x1+(x2/2),y1+(y2/2)#vypocet stredu objektu pro lepsi lokalizaci medveda 
-                print('center:',center_x,center_y)#vypise udaje v
                 center_x,center_y = int(center_x-x1/2), int(center_y-y1/2)#prevede hodnoty na int aby se dali pouzit ve funkci ukazujici stred 
+                print('center:',center_x,center_y)#vypise udaje 
                 cv2.circle(img, (center_x,center_y),10, (255,0,255), thickness=-1)
                 cls = int(box.cls[0])#ulozi classu daneho objektu do promenne 
                 cvzone.putTextRect(img, f'{classNames[cls]}{rounded_conf}',(max(0,x1), max(35,y1)))#vykresli nazev classy objektu spolecne s confidence do videa 
                 print(classNames[cls])#vypise klassu objektu
                 pos_x, pos_y = int(center_x/7),int((center_y/40)**2.15-360)
-                print(pos_x, pos_y)
+                print(pos_x, pos_y)#pozice medveda na mape 
                 cv2.circle(playfield, (pos_x,pos_y),10, (255,0,255), thickness=-1)
      cv2.imshow('hriste', playfield)
      cv2.imshow('footage',img)
