@@ -6,7 +6,7 @@ import cvzone
 
 #vstupni hodnoty programu 
 searched_object = 'pottedplant' #nazev objektu z coco.names co chci najit 
-vid_width = 720#sirka vide
+vid_width = 640#sirka vide
 vid_height = 480#vyska videa 
 
 #konfigurace detekce objektu 
@@ -33,8 +33,8 @@ while True:
      results = model(img, stream = True)
      for r in results:
         boxes = r.boxes
+        cv2.line(img,(int(vid_width/2),0),(int(vid_width/2),vid_height),(255,0,255),thickness=2 )#vykresli na video primku stredem videa 
         for box in boxes:
-            cv2.line(img,(960,0),(960,1080),(255,0,255),thickness=2 )#vykresli na video primku stredem videa 
             cls = int(box.cls[0])#zjisti classu objektu
             if object_id == cls:#pokud se claasa objektu shoduje s objektem co hledam stane se nasledujici
                 #bounding boxes
@@ -57,7 +57,13 @@ while True:
                 cv2.circle(img, (center_x,center_y),10, (255,0,255), thickness=-1)
                 #box on bounding box s nazvem claasy a confidence modelu 
                 cvzone.putTextRect(img, f'{classNames[cls]}{rounded_conf}',(max(0,x1), max(35,y1)))#vykresli nazev classy objektu spolecne s confidence do videa 
-                cv2.imshow('footage',img)#zobrazi frame
+                #vypocet odchylky objektu 
+                center_line = int(vid_width/2)# x souradnice primky zobrazujici stred 
+                death_zone = 50#ukazuje jak velke rozpeti v px se pocita jako stred 
+                if (center_x > (center_line - death_zone)) and (center_x < (center_line + death_zone)): #pokud je objekt +-50px ve stredu je to brano jako ze je rovne 
+                    object_deviation = 0#odchylka objektu od stredu obrazovky
+                    print('deviation = ',object_deviation)
+     cv2.imshow('footage',img)#zobrazi frame
      key=cv2.waitKey(1000)#delay takze to vyhodnocuje jen jeden frame za sekundu pro odlehceni 
      if key==ord('q'):#pokud se zmackne klavesa q while true se brejkne 
         break
