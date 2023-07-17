@@ -38,19 +38,19 @@ cv2.line(playfield, (105,(p_height*2)+25),(105,305+140), (255,255,255),thickness
 while True:
      sucess, img = cap.read()
      results = model(img, stream = True)
-     cv2.circle(img, (corner_dx,corner_dy),(5), (0,0,255),thickness=-1)
-     cv2.circle(img, (corner_ax,corner_ay),(5), (0,255,0),thickness=-1)
-     cv2.circle(img, (corner_bx,corner_by),(5), (255,0,0),thickness=-1)
-     cv2.circle(img, (corner_cx,corner_cy),(5), (255,255,255),thickness=-1)
-     cv2.line(img, (corner_ax,corner_ay),(corner_bx, corner_by), (0,0,255),thickness=2)#hrana ab
-     cv2.line(img, (corner_bx, corner_by),(corner_cx,corner_cy), (0,0,255),thickness=2)#hrana bc
-     cv2.line(img, (corner_cx,corner_cy),(corner_dx,corner_dy), (0,0,255),thickness=2)#hrana cd
-     cv2.line(img, (corner_dx,corner_dy),(corner_ax,corner_ay), (0,0,255),thickness=2)#hrana da
      for r in results:
         boxes = r.boxes
         for box in boxes:
-            cls = int(box.cls[0])#zjisti classu objektu 
-            if object_id == cls:#pokud se classa objektu shoduje s objektem co hledam stane se nasledujici 
+             cv2.circle(img, (corner_dx,corner_dy),(5), (0,0,255),thickness=-1)
+             cv2.circle(img, (corner_ax,corner_ay),(5), (0,0,255),thickness=-1)
+             cv2.circle(img, (corner_bx,corner_by),(5), (0,0,255),thickness=-1)
+             cv2.circle(img, (corner_cx,corner_cy),(5), (0,0,255),thickness=-1)
+             cv2.line(img, (corner_ax,corner_ay),(corner_bx, corner_by), (0,0,255),thickness=2)#hrana ab
+             cv2.line(img, (corner_bx, corner_by),(corner_cx,corner_cy), (0,0,255),thickness=2)#hrana bc
+             cv2.line(img, (corner_cx,corner_cy),(corner_dx,corner_dy), (0,0,255),thickness=2)#hrana cd
+             cv2.line(img, (corner_dx,corner_dy),(corner_ax,corner_ay), (0,0,255),thickness=2)#hrana da
+             cls = int(box.cls[0])#zjisti classu objektu 
+             if object_id == cls:#pokud se classa objektu shoduje s objektem co hledam stane se nasledujici 
                 x1,y1,x2,y2 = box.xyxy [0] #x1 je pozice leveho horniho rohu objektu v ose x, x2 je velikost objektu v ose x v px 
                 x1,y1,x2,y2 = int(x1),int(y1),int(x2),int(y2)#prevedeni hodnot na int pro lepsi praci s nima 
                 print('X=',x1,'Y=',y1,'W=',x2,'H=',y2)#vypisuje velikost objektu a jeho polohu v px 
