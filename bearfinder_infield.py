@@ -63,11 +63,8 @@ while True:
                 if (center_x > (center_line - death_zone)) and (center_x < (center_line + death_zone)): #pokud je objekt +-50px ve stredu je to brano jako ze je rovne 
                     object_deviation = 0#odchylka objektu od stredu obrazovky
                     print('deviation = ',object_deviation)
-                if center_x < (center_line + death_zone):
-                    object_deviation = center_line-center_x
-                    print('deviation = ',object_deviation)
-                if center_x > (center_line + death_zone):
-                    object_deviation = center_line-center_x
+                if (center_x < (center_line - death_zone)) and (center_x > (center_line + death_zone)): #pokud je objekt +-50px od stredu zacne se pocitat odchylka -doprava +doleva 
+                    object_deviation = center_line-center_x #odchylka objektu od stredu obrazovky
                     print('deviation = ',object_deviation) 
      cv2.imshow('footage',img)#zobrazi frame
      key=cv2.waitKey(1000)#delay takze to vyhodnocuje jen jeden frame za sekundu pro odlehceni 
