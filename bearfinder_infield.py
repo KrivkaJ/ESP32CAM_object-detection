@@ -66,6 +66,11 @@ while True:
                 if (center_x < (center_line - death_zone)) and (center_x > (center_line + death_zone)): #pokud je objekt +-50px od stredu zacne se pocitat odchylka -doprava +doleva 
                     object_deviation = center_line-center_x #odchylka objektu od stredu obrazovky
                     print('deviation = ',object_deviation) 
+                #prevod odchylky do stupnu 
+                deviation_deg = float(object_deviation/100)
+                print(deviation_deg,"degrees")
+            if object_id != cls:
+                print("no objects found turn robot")
      cv2.imshow('footage',img)#zobrazi frame
      key=cv2.waitKey(1000)#delay takze to vyhodnocuje jen jeden frame za sekundu pro odlehceni 
      if key==ord('q'):#pokud se zmackne klavesa q while true se brejkne 
