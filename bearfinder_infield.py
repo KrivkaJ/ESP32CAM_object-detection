@@ -58,6 +58,7 @@ while True:
                 #box on bounding box s nazvem claasy a confidence modelu 
                 cvzone.putTextRect(img, f'{classNames[cls]}{rounded_conf}',(max(0,x1), max(35,y1)))#vykresli nazev classy objektu spolecne s confidence do videa 
                 #vypocet odchylky objektu 
+                object_deviation =0
                 center_line = int(vid_width/2)# x souradnice primky zobrazujici stred 
                 death_zone = 50#ukazuje jak velke rozpeti v px se pocita jako stred 
                 if (center_x > (center_line - death_zone)) and (center_x < (center_line + death_zone)): #pokud je objekt +-50px ve stredu je to brano jako ze je rovne 
