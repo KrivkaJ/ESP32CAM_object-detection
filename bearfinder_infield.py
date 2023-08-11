@@ -70,7 +70,9 @@ while True:
                 #prevod odchylky do stupnu 
                 deviation_deg = float(object_deviation/100)
                 print(deviation_deg,"degrees")
-            if object_id != cls:
+            if (cls > object_id) and (cls < object_id):
+                print('vrong object')
+            else:
                 print("no objects found turn robot")
      cv2.imshow('footage',img)#zobrazi frame
      key=cv2.waitKey(1000)#delay takze to vyhodnocuje jen jeden frame za sekundu pro odlehceni 
