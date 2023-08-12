@@ -1,6 +1,9 @@
 import cv2
-
+import time
 cap = cv2.VideoCapture(0)
-frame = cap.read()
-cv2.imshow('frame', frame)
-cap.release()
+something, img = cap.read()
+cv2.imshow('nic',img)
+time.sleep(1)
+
+
+
