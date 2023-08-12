@@ -12,7 +12,7 @@ vid_height = 480#vyska videa
 #konfigurace detekce objektu 
 
 #nacte nazvy veci co muze detekovat ze souboru do listu 
-classesfile='coco.names'
+classesfile='/home/robko/git/ESP32CAM_object-detection/coco.names'
 classNames=[]
 with open(classesfile,'rt') as f:
     classNames=f.read().rstrip('\n').split('\n')
@@ -75,6 +75,6 @@ while True:
             else:
                 print("no objects found turn robot")
      cv2.imshow('footage',img)#zobrazi frame
-     key=cv2.waitKey(1000)#delay takze to vyhodnocuje jen jeden frame za sekundu pro odlehceni 
+     key=cv2.waitKey(1)#delay takze to vyhodnocuje jen jeden frame za sekundu pro odlehceni 
      if key==ord('q'):#pokud se zmackne klavesa q while true se brejkne 
         break
