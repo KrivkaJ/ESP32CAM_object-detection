@@ -38,6 +38,6 @@ while True:
             cvzone.putTextRect(img, f'{classNames[cls]}{rounded_conf}',(max(0,x1), max(35,y1)))#vykresli nazev classy objektu spolecne s confidence do videa 
             print(classNames[cls])#vypise klassu objektu
      cv2.imshow('footage',img)
-     key=cv2.waitKey(1000)#delay takze to vyhodnocuje jen jeden frame za sekundu pro odlehceni 
+     key=cv2.waitKey(1)#delay takze to vyhodnocuje jen jeden frame za sekundu pro odlehceni 
      if key==ord('q'):#pokud se zmackne klavesa q while true se brejkne 
         break
